@@ -85,4 +85,4 @@ def test_aggregate_validation(db_connection):
     assert not mismatches, (
         f"Aggregate validation failed.\n"
         f"Mismatches: {mismatches}"
-    )
+    ) 
