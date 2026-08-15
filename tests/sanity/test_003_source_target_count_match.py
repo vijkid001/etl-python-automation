@@ -1,33 +1,39 @@
-from config.db_connection import get_connection
+import os
+import pytest
 
 
-def test_source_target_count_match():
+def test_source_target_count_match(db_connection):
+    # Retrieve schema names directly from environment variables loaded via .env
+    source_schema = os.getenv("SOURCE_SCHEMA")
+    target_schema = os.getenv("TARGET_SCHEMA")
 
-    conn = get_connection()
-    cursor = conn.cursor()
+    # Guard assertions: Fail early if schemas are missing or empty in .env
+    assert source_schema, "SOURCE_SCHEMA is not set or is empty in the .env file."
+    assert target_schema, "TARGET_SCHEMA is not set or is empty in the .env file."
 
-    # Get source count
-    cursor.execute("""
+    # Use the connection fixture provided by conftest.py
+    cursor = db_connection.cursor()
+
+    # Query source count dynamically
+    cursor.execute(f"""
         SELECT COUNT(*)
-        FROM VIJAYSRC.PRODUCTS_SRC
+        FROM {source_schema}.PRODUCTS_SRC
     """)
-
     source_count = cursor.fetchone()[0]
 
-    # Get target count
-    cursor.execute("""
+    # Query target count dynamically
+    cursor.execute(f"""
         SELECT COUNT(*)
-        FROM VIJAYTGT.PRODUCTS_TGT
+        FROM {target_schema}.PRODUCTS_TGT
     """)
-
     target_count = cursor.fetchone()[0]
 
     cursor.close()
-    conn.close()
 
     print(f"\nSource count : {source_count}")
     print(f"Target count : {target_count}")
 
+    # Assert that record counts match
     assert source_count == target_count, (
         f"Source and Target counts do not match. "
         f"Source={source_count}, Target={target_count}"

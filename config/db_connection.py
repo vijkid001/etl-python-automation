@@ -1,5 +1,4 @@
 import os
-
 import oracledb
 from dotenv import find_dotenv, load_dotenv
 
