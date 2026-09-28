@@ -1,0 +1,21 @@
+smoke_tests:
+  - name: "Oracle to Postgres Smoke"
+    source: "oracle_db"
+    target: "postgres_db"
+    source_query: "SELECT 'CONNECTED' FROM dual"
+    target_query: "SELECT 'CONNECTED'"
+
+sanity_tests:
+  - name: "Row Count Validation - Customers Table"
+    source: "oracle_db"
+    target: "postgres_db"
+    source_query: "SELECT COUNT(*) FROM src_customers"
+    target_query: "SELECT COUNT(*) FROM tgt_customers"
+
+regression_tests:
+  - name: "Null Check - Customer Primary Keys"
+    source: "oracle_db"
+    target: "postgres_db"
+    source_query: "SELECT COUNT(*) FROM src_customers WHERE customer_id IS NULL"
+    target_query: "SELECT COUNT(*) FROM tgt_customers WHERE customer_id IS NULL"
+    expected_count: 0

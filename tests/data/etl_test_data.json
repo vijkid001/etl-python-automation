@@ -1,0 +1,30 @@
+{
+  "smoke_tests": [
+    {
+      "name": "Source to Target Smoke",
+      "source": "source_connection",
+      "target": "target_connection",
+      "source_schema": "VIJAYSRC",
+      "source_query": "SELECT 'CONNECTED' FROM dual",
+      "target_query": "SELECT 'CONNECTED'",
+      "source_table_name": "PRODUCTS_SRC",
+      "source_table_exists_query": "SELECT COUNT(*) FROM all_tables WHERE owner = 'VIJAYSRC' AND table_name = 'PRODUCTS_SRC'",
+      "target_schema": "VIJAYTGT",
+      "target_table_name": "products_tgt",
+      "target_table_exists_query": "SELECT COUNT(*) FROM pg_tables WHERE schemaname = 'vijaytgt' AND tablename = 'products_tgt'; "
+    }
+  ],
+  "regression_tests": [
+    {
+      "name": "Source to Target Data Match",
+      "source": "source_connection",
+      "target": "target_connection",
+      "source_schema": "VIJAYSRC",
+      "source_table_name": "PRODUCTS_SRC",
+      "source_record_count_query": "SELECT COUNT(*) FROM {source_schema}.{source_table_name}",
+      "target_schema": "vijaytgt",
+      "target_table_name": "products_tgt",
+      "target_record_count_query": "SELECT COUNT(*) FROM {target_schema}.{target_table_name}"      
+    }
+  ]
+}
