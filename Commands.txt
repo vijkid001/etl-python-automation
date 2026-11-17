@@ -1,0 +1,66 @@
+ETL AUTOMATION Master
+
+MASTER COMMANDS
+python -m pytest .\tests\smoke -v
+python -m pytest .\tests\sanity -v
+python -m pytest .\tests\smoke -v
+python -m pytest .\tests\smoke\01.test_db_connection.py -v -s
+python -m pytest .\tests\smoke\01.test_db_connection.py -v (to capture logs in reports.html)
+
+
+OLD COMMANDS
+
+python -m pytest tests/smoke/test_db_connection.py -v -s
+python -m pytest tests/sanity/test_003_source_target_count_match.py -v -s
+
+pytest tests/smoke/test_source_accessible.py -v -s
+pytest tests/smoke/test_source_table_exists.py -v
+pytest tests/smoke/test_target_table_exists.py -v
+pytest tests/smoke/test_target_accessible.py -v
+python -m pytest tests/sanity/test_003_source_target_count_match.py -v -s
+python -m pytest tests/smoke -v -s
+
+python -m pytest tests/sanity -v -s
+python -m pytest tests/sanity/test_004_primary_key_not_null.py -v -s
+python -m pytest tests/sanity/test_001_source_record_count.py -v -s
+python -m pytest tests/sanity/test_002_target_record_count.py -v -s
+
+Regression
+python -m pytest tests/regression/test_004_aggregate_validation.py -v -s
+
+Result Reports which includes the query as well
+cd "D:\VIJAY\PROGRAMMING\etl-python-automation"
+$env:PYTHONPATH="."
+pytest tests/sanity/test_001_source_record_count.py -q --html=reports/report.html --self-contained-html
+
+
+
+
+SMOKE
+01,02,03,04,05Working with Test Results
+
+SANITY
+01,02,03,04 Working with Test Results
+
+REGRESSION
+NOT STARTED	
+
+pip freeze > requirements.txt
+pip install -r requirements.txt 
+
+
+Can we add the details of source accessible like DB or Schema or Table and add the reports html tiimestamp log should show the details on what actually ran
+
+
+SOURCE_HOST=localhost
+SOURCE_PORT=1521
+SOURCE_SERVICE=FREEPDB1
+SOURCE_USERNAME=SYSTEM
+SOURCE_PASSWORD=admin
+
+
+TARGET_HOST=localhost
+TARGET_PORT=1521
+TARGET_SERVICE=FREEPDB1
+TARGET_USERNAME=SYSTEM
+TARGET_PASSWORD=admin
